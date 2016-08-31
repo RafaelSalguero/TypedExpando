@@ -18,18 +18,22 @@ namespace DynamicExtensions
         /// <summary>
         /// Create a typed expando without properties
         /// </summary>
-        public TypedExpando() : this(new Tuple<Type, string>[0])
+        public TypedExpando() : this(new Tuple<string, Type>[0])
         {
         }
 
         /// <summary>
         /// Create a typed expando with the given properties
         /// </summary>
-        /// <param name="Properties">A collection of pairs of property type and property name</param>
-        public TypedExpando(IEnumerable<Tuple<Type, string>> Properties) : base((sender, arg) => ((TypedExpando)sender).RaisePropertyChanged(arg.PropertyName))
+        /// <param name="Properties">A collection of pairs of property name and property type</param>
+        public TypedExpando(IEnumerable<Tuple<string, Type>> Properties) : base((sender, arg) => ((TypedExpando)sender).RaisePropertyChanged(arg.PropertyName))
         {
             this.extension = new TypedExpandoExtension();
             this.AddExtension(extension);
+
+            //Add properties:
+            foreach (var P in Properties)
+                AddProperty(P.Item1, P.Item2);
         }
 
         private readonly TypedExpandoExtension extension;
