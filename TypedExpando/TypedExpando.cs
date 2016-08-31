@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,27 +12,33 @@ namespace DynamicExtensions
     /// <summary>
     /// A dynamic class that supports adding typed properties in runtime
     /// </summary>
-    public class TypedExpando : DynamicExtensionContainer
+    public class TypedExpando :
+        DynamicExtensionContainer, IEnumerable<KeyValuePair<string, object>>, INotifyPropertyChanged
     {
         /// <summary>
-        /// Create a typed expando without property change notificaton
+        /// Create a typed expando without properties
         /// </summary>
-        public TypedExpando() : this(null)
-        {
-
-        }
-
-        /// <summary>
-        /// Create a typed expando with property change notificaton
-        /// </summary>
-        /// <param name="RaisePropertyChanged">The function to call when a property is modified. Can be null</param>
-        public TypedExpando(PropertyChangedEventHandler RaisePropertyChanged) : base(RaisePropertyChanged)
+        public TypedExpando() : base((sender, arg) => ((TypedExpando)sender).RaisePropertyChanged(arg.PropertyName))
         {
             this.extension = new TypedExpandoExtension();
             this.AddExtension(extension);
         }
 
         private readonly TypedExpandoExtension extension;
+
+        /// <summary>
+        /// Informs when a dynamic property has changed
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>
+        /// Raise the PropertyChanged event
+        /// </summary>
+        /// <param name="PropertyName">The property name. If not specified is taken from the caller member name</param>
+        protected void RaisePropertyChanged([CallerMemberName] string PropertyName = "")
+        {
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(PropertyName));
+        }
 
         /// <summary>
         /// Add a new property to the typed expando
@@ -49,6 +57,16 @@ namespace DynamicExtensions
         public void RemoveProperty(string Name)
         {
             extension.RemoveProperty(Name);
+        }
+
+        public IEnumerator<KeyValuePair<string, object>> GetEnumerator()
+        {
+            return extension.MemberNames.Select(x => new KeyValuePair<string, object>(x, this[x])).GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
         }
 
         /// <summary>
