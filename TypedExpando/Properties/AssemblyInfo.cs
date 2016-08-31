@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("DynamicExtensions")]
+[assembly: AssemblyTitle("TypedExpando")]
 [assembly: AssemblyDescription("Provides means for dynamically extending types at runtime")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Kea Software")]
-[assembly: AssemblyProduct("DynamicExtensions")]
+[assembly: AssemblyProduct("TypedExpando")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
