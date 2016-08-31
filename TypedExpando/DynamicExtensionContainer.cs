@@ -92,6 +92,28 @@ namespace DynamicExtensions
         }
 
         /// <summary>
+        /// Check if a given value can be assigned to a property of a given type
+        /// </summary>
+        static bool CanBeAssignedTo(Type Type, object Value)
+        {
+            //If type is nullable, return true if value is null
+            if (Value == null)
+            {
+                //If the type is nullable:
+                if (Type.IsGenericType && Type.GetGenericTypeDefinition() == typeof(Nullable<>))
+                    return true;
+                if (Type.IsValueType)
+                    return false;
+                else
+                    return true;
+            }
+            else
+            {
+                return Type.IsInstanceOfType(Value);
+            }
+        }
+
+        /// <summary>
         /// DynamicExtensionContainer setted
         /// </summary>
         /// <param name="binder"></param>
@@ -100,20 +122,33 @@ namespace DynamicExtensions
         public sealed override bool TrySetMember(SetMemberBinder binder, object value)
         {
             var D = getDynamicExtension(binder.Name);
+            //If there isn't any dynamic extension that matches that property, return false
             if (D == null) return false;
             var CanWrite = D.CanWrite(binder.Name);
+
+            //If the property can't be written, return false
             if (!CanWrite) return false;
 
+            //Raise the property changed only if the value was changed:
             bool RaisePropertyChanged = false;
             RaisePropertyChanged = (raisePropertyChanged != null) && D.CanRead(binder.Name) && !object.Equals(D.Get(binder.Name), value);
 
-            D.Set(binder.Name, value);
-
-            if (RaisePropertyChanged)
+            //Check if the value type is compatible with the property type
+            if (CanBeAssignedTo(D.GetPropertyType(binder.Name), value))
             {
-                raisePropertyChanged(this, new PropertyChangedEventArgs(binder.Name));
+                D.Set(binder.Name, value);
+
+                if (RaisePropertyChanged)
+                {
+                    raisePropertyChanged(this, new PropertyChangedEventArgs(binder.Name));
+                }
+
+                return true;
             }
-            return true;
+            else
+            {
+                throw new ArgumentException("The value type isn't compatible with the property type");
+            }
         }
 
         #region ICustomTypeDescriptor
