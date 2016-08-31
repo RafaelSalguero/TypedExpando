@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TypedExpando
+namespace DynamicExtensions
 {
     /// <summary>
     /// Proxy property getters and setters onto a collection of dynamic extensions. This class can't be instanced directly and should be inherited

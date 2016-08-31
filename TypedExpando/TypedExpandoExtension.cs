@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TypedExpando
+namespace DynamicExtensions
 {
     /// <summary>
     /// Dynamic extension that supports adding and removing basic get/set properties

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TypedExpando
+namespace DynamicExtensions
 {
     /// <summary>
     /// A PropertyDescriptor child for typed dynamic properties 

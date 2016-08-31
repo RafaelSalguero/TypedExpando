@@ -7,8 +7,8 @@
     <ProjectGuid>{CF92497C-CCD0-4256-8C42-E624DF70C000}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TypedExpando</RootNamespace>
-    <AssemblyName>TypedExpando</AssemblyName>
+    <RootNamespace>DynamicExtensions</RootNamespace>
+    <AssemblyName>DynamicExtensions</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
