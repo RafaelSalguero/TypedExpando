@@ -1,10 +1,7 @@
 # TypedExpando
 A class that supports dynamic typed properties
 
-#nuget
-```
-Install-Package TypedExpando
-```
+
 
 ##Add properties to the object on runtime
 ```c#
@@ -25,3 +22,5 @@ D.Age = 22;
 //runtime exception: 
 D.Age = "Hello";
 ```
+
+nuget: `Install-Package TypedExpando`
