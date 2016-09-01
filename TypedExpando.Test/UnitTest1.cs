@@ -3,11 +3,36 @@ using System.Collections.Generic;
 using Microsoft.CSharp.RuntimeBinder;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
+using System.ComponentModel;
+
 namespace DynamicExtensions.Test
 {
     [TestClass]
     public class UnitTest1
     {
+
+        [TestMethod]
+        public void PropertyChangedAccesorTest()
+        {
+            var O = new TypedExpando(new[] {
+                Tuple.Create ( "Age", typeof(int)),
+                Tuple.Create ("Name", typeof(string) )
+                }
+            );
+
+            bool Ok = false;
+            O.PropertyChanged += (sender, e) =>
+            {
+                Assert.AreEqual("Name", e.PropertyName);
+                Ok = true;
+            };
+            var D = (dynamic)O;
+
+            var CTD = (ICustomTypeDescriptor)O;
+            CTD.GetProperties().Cast<PropertyDescriptor>().First(x => x.Name == "Name").SetValue(CTD, "Rafael");
+
+            Assert.IsTrue(Ok);
+        }
 
         [TestMethod]
         public void PropertyChangedTest()

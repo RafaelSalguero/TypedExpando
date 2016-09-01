@@ -152,26 +152,8 @@ namespace DynamicExtensions
             //If the property can't be written, return false
             if (!CanWrite) return false;
 
-            //Raise the property changed only if the value was changed:
-            bool RaisePropertyChanged = false;
-            RaisePropertyChanged = (raisePropertyChanged != null) && D.CanRead(PropertyName) && !object.Equals(D.Get(PropertyName), value);
-
-            //Check if the value type is compatible with the property type
-            if (CanBeAssignedTo(D.GetPropertyType(PropertyName), value))
-            {
-                D.Set(PropertyName, value);
-
-                if (RaisePropertyChanged)
-                {
-                    raisePropertyChanged(this, new PropertyChangedEventArgs(PropertyName));
-                }
-
-                return true;
-            }
-            else
-            {
-                throw new ArgumentException("The value type isn't compatible with the property type");
-            }
+            TypedProperty.SetValue(D.GetPropertyType(PropertyName), PropertyName, value, this, raisePropertyChanged, D.CanRead(PropertyName), () => D.Get(PropertyName), () => D.Set(PropertyName, value));
+            return true;
         }
 
         #region ICustomTypeDescriptor
@@ -232,7 +214,7 @@ namespace DynamicExtensions
             foreach (var PropName in AllProperties)
             {
                 var Ex = Container.getDynamicExtension(PropName);
-                var PropDesc = new TypedProperty(Container.GetType(), PropName, Ex);
+                var PropDesc = new TypedProperty(Container.GetType(), PropName, Ex, Container.raisePropertyChanged);
                 Result.Add(PropDesc);
             }
             return new PropertyDescriptorCollection(Result.ToArray());
