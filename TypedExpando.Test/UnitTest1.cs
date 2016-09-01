@@ -8,6 +8,52 @@ namespace DynamicExtensions.Test
     [TestClass]
     public class UnitTest1
     {
+
+        [TestMethod]
+        public void PropertyChangedTest()
+        {
+            var O = new TypedExpando(new[] {
+                Tuple.Create ( "Age", typeof(int)),
+                Tuple.Create ("Name", typeof(string) )
+                }
+            );
+
+            bool Ok = false;
+            O.PropertyChanged += (sender, e) =>
+             {
+                 Assert.AreEqual("Name", e.PropertyName);
+                 Ok = true;
+             };
+            var D = (dynamic)O;
+
+            D.Name = "Rafa";
+
+            Assert.IsTrue(Ok);
+        }
+
+        [TestMethod]
+        public void PropertyChangedTestIndexer()
+        {
+            var O = new TypedExpando(new[] {
+                Tuple.Create ( "Age", typeof(int)),
+                Tuple.Create ("Name", typeof(string) )
+                }
+            );
+
+            bool Ok = false;
+            O.PropertyChanged += (sender, e) =>
+            {
+                Assert.AreEqual("Name", e.PropertyName);
+                Ok = true;
+            };
+            var D = (dynamic)O;
+
+            D["Name"] = "Rafa";
+
+            Assert.IsTrue(Ok);
+        }
+
+
         [TestMethod]
         public void GetSetTest()
         {
@@ -81,7 +127,7 @@ namespace DynamicExtensions.Test
             D.Age = 20;
             Assert.AreEqual(20, D.Age);
 
-            D.Age =null;
+            D.Age = null;
             Assert.AreEqual(null, D.Age);
         }
 

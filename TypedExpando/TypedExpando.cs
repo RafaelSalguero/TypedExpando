@@ -90,11 +90,18 @@ namespace DynamicExtensions
         {
             get
             {
-                return extension.Get(PropertyName);
+                object result;
+                if (TryGetProperty(PropertyName, out result))
+                {
+                    return result;
+                }
+                else
+                    throw new ArgumentException($"Property '{PropertyName}' not found");
             }
             set
             {
-                extension.Set(PropertyName, value);
+                if (!TrySetProperty(PropertyName, value))
+                    throw new ArgumentException($"Property '{PropertyName}' not found");
             }
         }
     }
