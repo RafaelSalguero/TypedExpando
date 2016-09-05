@@ -37,7 +37,6 @@ namespace DynamicExtensions
                 AddProperty(P.Item1, P.Item2);
 
             this.Keys = extension.Properties.Keys;
-            this.Values = ((IDictionary<string, object>)extension.Properties).Values;
         }
 
         private readonly TypedExpandoExtension extension;
@@ -53,7 +52,7 @@ namespace DynamicExtensions
         /// <summary>
         /// Get the collection of all properties values
         /// </summary>
-        public ICollection<object> Values { get; private set; }
+        public ICollection<object> Values => extension.Properties.Values.Select(x => x.Value).ToList().AsReadOnly();
 
         /// <summary>
         /// Gets the number of properties of this typed expando
