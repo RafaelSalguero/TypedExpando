@@ -117,7 +117,7 @@ namespace DynamicExtensions
             }
             else
             {
-                throw new ArgumentException($"The value type '{value.GetType().FullName ?? "null" }' isn't compatible with the property type '{PropertyType.FullName}' for the property '{PropertyType.Name}'");
+                throw new ArgumentException($"The value type '{value.GetType().FullName ?? "null" }' isn't compatible with the property type '{PropertyType.FullName}' for the property '{PropertyName}'");
             }
         }
 
