@@ -44,7 +44,7 @@ namespace DynamicExtensions
         public void AddProperty(string PropertyName, Type PropertyType)
         {
             if (Properties.ContainsKey(PropertyName))
-                throw new ArgumentException("The property already exists");
+                throw new ArgumentException($"The property '{PropertyName}' already exists");
             Properties.Add(PropertyName, new Property(PropertyType));
         }
 
@@ -55,7 +55,7 @@ namespace DynamicExtensions
         public void RemoveProperty(string PropertyName)
         {
             if (!Properties.ContainsKey(PropertyName))
-                throw new ArgumentException("The property does not exists");
+                throw new ArgumentException($"The property '{PropertyName}' does not exists");
 
             Properties.Remove(PropertyName);
         }
