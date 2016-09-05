@@ -11,7 +11,7 @@ namespace DynamicExtensions
     /// </summary>
     class TypedExpandoExtension : IDynamicExtension
     {
-        class Property
+        public class Property
         {
             public Property(Type PropertyType)
             {
@@ -34,7 +34,7 @@ namespace DynamicExtensions
         /// <summary>
         /// Property value dictionary
         /// </summary>
-        private readonly Dictionary<string, Property> Properties = new Dictionary<string, Property>();
+        public readonly IDictionary<string, Property> Properties = new Dictionary<string, Property>();
 
         /// <summary>
         /// Add a new property. Throws an ArgumentException if the property already exists
@@ -66,6 +66,6 @@ namespace DynamicExtensions
         public object Get(string PropertyName) => Properties[PropertyName].Value;
         public void Set(string PropertyName, object Value) => Properties[PropertyName].Value = Value;
         Type IDynamicExtension.GetPropertyType(string PropertyName) => Properties[PropertyName].PropertyType;
-        
+
     }
 }
