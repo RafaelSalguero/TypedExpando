@@ -23,4 +23,17 @@ D.Age = 22;
 D.Age = "Hello";
 ```
 
+##Implements `INotifyPropertyChanged` and `IDictionary<string, object>` interfaces
+```c#
+//Property change notification supports binding:
+D.PropertyChanged += (sender, e) => { ... }
+
+//IDictionary for merging seamlessly with existing code:
+D["Age"] = 25;
+foreach(var KeyValuePair in D) { ... }
+
+//Add a typed property named Id with type int
+D.Add("Id", 1);
+```
+
 nuget: `Install-Package TypedExpando`
