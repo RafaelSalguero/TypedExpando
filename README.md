@@ -1,7 +1,10 @@
 # TypedExpando
 A class that supports dynamic typed properties
 
-
+##nuget
+```
+Install-Package TypedExpando
+```
 
 ##Add properties to the object on runtime
 ```c#
@@ -36,4 +39,4 @@ foreach(var KeyValuePair in D) { ... }
 D.Add("Id", 1);
 ```
 
-nuget: `Install-Package TypedExpando`
+
