@@ -1,5 +1,7 @@
 # TypedExpando
-A class that supports dynamic typed properties
+A class that supports dynamic typed properties.
+
+Similar to [ExpandoObject](https://msdn.microsoft.com/en-us/library/system.dynamic.expandoobject.aspx) but with runtime type checking
 
 ##nuget
 ```
