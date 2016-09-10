@@ -8,7 +8,7 @@ Similar to [ExpandoObject](https://msdn.microsoft.com/en-us/library/system.dynam
 Install-Package TypedExpando
 ```
 
-##Add properties to the object on runtime
+##Add properties to the object at runtime
 ```c#
  var O = new TypedExpando();
 O.AddProperty("Name", typeof(string));
